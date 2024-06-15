@@ -23,7 +23,7 @@ function enemyPrototype.load(self)
     self.speed = math.random(50, 150)
 end
 
-function enemyPrototype.update(self, dt, map, player)
+function enemyPrototype.update(self, dt, boundaries, player)
     if self.isDead then
         return
     end
@@ -33,15 +33,15 @@ function enemyPrototype.update(self, dt, map, player)
     self.y = self.y + self.speed * dt * self.directionY
 
     -- Reverse direction if hitting the boundaries
-    if self.x <= map.boundaries.left then
+    if self.x <= boundaries.left then
         self.directionX = 1
-    elseif self.x + self.width >= map.boundaries.right then
+    elseif self.x + self.width >= boundaries.right then
         self.directionX = -1
     end
 
-    if self.y <= map.boundaries.top then
+    if self.y <= boundaries.top then
         self.directionY = 1
-    elseif self.y + self.height >= map.boundaries.bottom then
+    elseif self.y + self.height >= boundaries.bottom then
         self.directionY = -1
     end
 
@@ -79,9 +79,9 @@ function enemies.create(x, y)
     newEnemy:load()
 end
 
-function enemies.updateAll(dt, map, player)
+function enemies.updateAll(dt, boundaries, player)
     for _, enemy in ipairs(enemies) do
-        enemy:update(dt, map, player)
+        enemy:update(dt, boundaries, player)
     end
 end
 

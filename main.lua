@@ -9,7 +9,7 @@ local cameraOffset = {x = 0, y = 0}
 
 function love.load()
     love.graphics.setBackgroundColor(0.1, 0.5, 0.5)
-    player.load()
+    player.load(boundaries)
     enemies.create(300, 300)  -- Create an enemy at position (300, 300)
     print("Window size: ", love.graphics.getWidth(), love.graphics.getHeight())
 end
@@ -20,7 +20,7 @@ function love.update(dt)
     end
 
     player.update(dt, map, boundaries)
-    enemies.updateAll(dt, map, player)
+    enemies.updateAll(dt, boundaries, player)
     cameraOffset.x = player.x - love.graphics.getWidth() / 2 + player.width / 2
     cameraOffset.y = player.y - love.graphics.getHeight() / 2 + player.height / 2
 end
@@ -32,6 +32,7 @@ function love.draw()
     map.draw()
     player.draw()
     enemies.drawAll()
+    boundaries.draw()
     
     love.graphics.pop()
     

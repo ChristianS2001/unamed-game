@@ -10,12 +10,13 @@ local player = {
     isDead = false,
     attacking = false,
     attackTime = 0,
-    attackDuration = 0.5,  -- Attack lasts for half a second
-    attackRadius = 100,
+    attackDuration = 3,  -- seconds
+    attackRadius = 150,
 }
 
-function player.load()
-    -- Any initialization code for player if needed
+function player.load(boundaries) --initialization of player traits
+    player.x = (boundaries.right - boundaries.left) / 2 - player.width / 2
+    player.y = (boundaries.bottom - boundaries.top) / 2 - player.height / 2
 end
 
 function player.update(dt, map, boundaries)
@@ -55,19 +56,19 @@ function player.update(dt, map, boundaries)
             boundaries.checkY(player)
         end
 
-        for _, box in ipairs(map.boxes) do
-            if checkCollision(player, box) then
+        for _, object in ipairs(map.objects) do -- collisions are handled here
+            if checkCollision(player, object) then
                 if axis == 'x' then
                     if move > 0 then
-                        player.x = box.x - player.width
+                        player.x = object.x - player.width
                     elseif move < 0 then
-                        player.x = box.x + box.width
+                        player.x = object.x + object.width
                     end
                 elseif axis == 'y' then
                     if move > 0 then
-                        player.y = box.y - player.height
+                        player.y = object.y - player.height
                     elseif move < 0 then
-                        player.y = box.y + box.height
+                        player.y = object.y + object.height
                     end
                 end
             end
