@@ -91,4 +91,13 @@ function enemies.drawAll()
     end
 end
 
+function enemies.clear()
+    for i = #enemies, 1, -1 do
+        table.remove(enemies, i)
+    end
+end
+
+-- Make the enemy prototype accessible
+enemies.prototype = enemyPrototype
+
 return enemies
